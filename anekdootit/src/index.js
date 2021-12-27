@@ -8,52 +8,52 @@ const Button = ({ onClick, text }) =>
 
 const Anecdote = ({text, votesCount}) =>
   <div>
-    <p>{text}</p>
-    <p>{votesCount} votes</p>
+    <h4>{text}</h4>
+    <h4>{votesCount} votes</h4>
   </div>
 
 const MostWotes = ({anecdotes, votes}) => {
   const highestVoteCount = Math.max(...votes)
-  const MostWotesIndex = votes.indexOf(highestVoteCount)
-  const MostWotes = anecdotes[MostWotesIndex]
+  const MostVotedIndex = votes.indexOf(highestVoteCount)
+  const MostWotes = anecdotes[MostVotedIndex]
+  
   if (highestVoteCount === 0) {
     return (
-      <p>No votes yet</p>
+      <h4>No votes yet</h4>
     )
   }
-
-  return (
-    <div>
-      <p>{MostWotes}</p>
-      <p>{highestVoteCount} votes</p>
-    </div>
-  )
+  else {
+    return (
+      <div>
+        <h4>{MostWotes}</h4>
+        <h4>{highestVoteCount} votes</h4>
+      </div>
+    )
+  }
 }
-
-const Header = ({title}) => <h1>{title}</h1>
 
 const App = ({anecdotes}) => {
   const [selected, setSelected] = useState(0)
   const [votes, setvotes] = useState(Array(6).fill(0))
 
-  const handleVoteClick = () => {
+  const addVote = () => {
     const newvotes = [...votes]
     newvotes[selected] += 1
     setvotes(newvotes)
   }
 
-  const handleAnecdoteClick = () => {
+  const NextAnecdote = () => {
     const arrayIndex = Math.floor(Math.random() * anecdotes.length)
     setSelected(arrayIndex)
   }
 
   return (
     <div>
-      <Header title="Anecdote of the day" />
+      <h1>Anecdote of the day</h1>
       <Anecdote text={anecdotes[selected]} votesCount={votes[selected]} />
-      <Button onClick={handleVoteClick} text="vote"/>
-      <Button onClick={handleAnecdoteClick} text="Next anecdote"/>
-      <Header title="Anecdote with most votes" />
+      <Button onClick={addVote} text="Vote"/>
+      <Button onClick={NextAnecdote} text="Next anecdote"/>
+      <h1>Anecdote with most votes</h1>
       <MostWotes anecdotes={anecdotes} votes={votes} />
     </div>
   )
